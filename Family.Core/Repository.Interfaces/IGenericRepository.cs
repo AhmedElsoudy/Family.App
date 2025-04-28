@@ -1,4 +1,5 @@
 ﻿using Family.Core.Entities;
+using Family.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace Family.Core.Repository.Interfaces
     {
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetBySpecification(ISpecification<T> spec);
+        Task<IEnumerable<T>> ListAsync(ISpecification<T> spec);
 
         //Task AddAsync(T entity);
         //Task UpdateAsync(T entity);

@@ -17,7 +17,7 @@ namespace Family.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SliderItem>>> GetAll()
+        public async Task<ActionResult<IEnumerable<SliderItem>>> GetAllSliders()
         {
             var sliderItems = await _sliderItemRepo.GetAllAsync();
             return Ok(sliderItems);
