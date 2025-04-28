@@ -11,7 +11,7 @@ namespace Family.Core.Entities
         public int PersonId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Body { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation property
         public Person Person { get; set; } = null!;

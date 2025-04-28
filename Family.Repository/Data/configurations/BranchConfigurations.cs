@@ -14,12 +14,21 @@ namespace Family.Repository.Data.configurations
     {
         public void Configure(EntityTypeBuilder<Branch> builder)
         {
+            builder.Property(b => b.Name)
+             .IsRequired()
+             .HasMaxLength(100);
 
-           
-             builder.HasOne(b => b.Clan)
-            .WithMany(c => c.Branches)
-            .HasForeignKey(b => b.ClanId)
-            .OnDelete(DeleteBehavior.Cascade);
+            // Configure one-to-many relationship with Clan
+            builder.HasOne(b => b.Clan)
+                .WithMany(c => c.Branches)
+                .HasForeignKey(b => b.ClanId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure one-to-many relationship with Person
+            builder.HasMany(b => b.Persons)
+                .WithOne(p => p.Branch)
+                .HasForeignKey(p => p.BranchId)
+                .OnDelete(DeleteBehavior.Cascade); ;
         }
     }
 }
