@@ -15,5 +15,14 @@ namespace Family.Api.Controllers
         {
             _sliderItemRepo = SliderItemRepo;
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SliderItem>>> GetAll()
+        {
+            var sliderItems = await _sliderItemRepo.GetAllAsync();
+            return Ok(sliderItems);
+
+        }
+
     }
 }
