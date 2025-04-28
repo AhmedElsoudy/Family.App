@@ -1,5 +1,7 @@
 
+using Family.Core.Repository.Interfaces;
 using Family.Repository.Data;
+using Family.Repository.Repository.Implemented;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -21,6 +23,8 @@ namespace Family.Api
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             var app = builder.Build();
 
