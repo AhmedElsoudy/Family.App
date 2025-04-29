@@ -15,6 +15,8 @@ namespace Family.Core.Repository.Interfaces
         Task<T> GetBySpecification(ISpecification<T> spec);
         Task<IEnumerable<T>> ListAsync(ISpecification<T> spec);
 
+        Task AddAsync(T entity);
+        Task DeleteAsync(T entity);
         //Task AddAsync(T entity);
         //Task UpdateAsync(T entity);
         //Task DeleteAsync(int id);

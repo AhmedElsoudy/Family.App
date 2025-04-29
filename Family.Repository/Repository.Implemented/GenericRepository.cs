@@ -39,6 +39,17 @@ namespace Family.Repository.Repository.Implemented
         {
             return await ApplySpecification(spec).ToListAsync();
         }
+        public async Task AddAsync(T entity)
+        {
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+            await _context.SaveChangesAsync();
+        }
 
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
