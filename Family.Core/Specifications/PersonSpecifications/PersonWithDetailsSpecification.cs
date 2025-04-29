@@ -12,15 +12,18 @@ namespace Family.Core.Specifications.PersonSpecifications
         public PersonWithDetailsSpecification(int personId)
             : base(x => x.Id == personId)
         {
-            AddInclude(x => x.Notifications);
-            AddInclude(x => x.Branch);
             AddInclude(x => x.Clan);
+            AddInclude(x => x.Branch);
+            AddInclude(x => x.Notifications);
         }
 
         public PersonWithDetailsSpecification(int branchId, bool filterByBranch)
             : base(x => x.BranchId == branchId)
         {
             AddInclude(x => x.Notifications);
+            AddInclude(x => x.Clan);
+            AddInclude(x => x.Branch);
         }
+
     }
 }

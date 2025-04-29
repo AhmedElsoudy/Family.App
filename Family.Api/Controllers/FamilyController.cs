@@ -61,7 +61,7 @@ namespace Family.Api.Controllers
         }
 
         [HttpGet("persons/{personId}")]
-        public async Task<ActionResult<Person>> GetPersonDetails(int personId)
+        public async Task<ActionResult<PersonDetailsDto>> GetPersonDetails(int personId)
         {
             var spec = new PersonWithDetailsSpecification(personId);
             var person = await _personRepo.GetBySpecification(spec);
@@ -69,7 +69,7 @@ namespace Family.Api.Controllers
             if (person == null)
                 return NotFound($"Person with ID {personId} not found");
 
-            return Ok(person);
+            return Ok(person.ToDetailsDto());
         }
 
         [HttpGet("clans/{clanId}/branches")]
@@ -81,11 +81,11 @@ namespace Family.Api.Controllers
         }
 
         [HttpGet("branches/{branchId}/persons")]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPersonsByBranchId(int branchId)
+        public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonsByBranchId(int branchId)
         {
             var spec = new PersonWithDetailsSpecification(branchId, true);
             var persons = await _personRepo.ListAsync(spec);
-            return Ok(persons);
+            return Ok(persons.ToDtos());
         }
     }
 }

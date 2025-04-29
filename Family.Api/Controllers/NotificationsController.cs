@@ -1,4 +1,6 @@
-﻿using Family.Core.Entities;
+﻿using Family.Api.Helpers;
+using Family.Core.DTOs;
+using Family.Core.Entities;
 using Family.Core.Repository.Interfaces;
 using Family.Core.Specifications.NotificationSpecifications;
 using Microsoft.AspNetCore.Http;
@@ -19,11 +21,17 @@ namespace Family.Api.Controllers
 
         // GET: api/Notifications/person/{personId}
         [HttpGet("person/{personId}")]
-        public async Task<ActionResult<IEnumerable<Notifications>>> GetPersonNotifications(int personId)
+        public async Task<ActionResult<IEnumerable<NotificationsDto>>> GetPersonNotifications(int personId)
         {
             var spec = new NotificationSpecification(personId, true);
             var notifications = await _notificationsRepo.ListAsync(spec);
-            return Ok(notifications);
+
+            // Order by creation date descending (newest first)
+            var orderedNotifications = notifications
+                .OrderByDescending(n => n.CreatedAt)
+                .ToDtos();
+
+            return Ok(orderedNotifications);
         }
 
         //// GET: api/Notifications/latest/person/{personId}
