@@ -1,4 +1,6 @@
-﻿using Family.Core.Entities;
+﻿using Family.Api.Helpers;
+using Family.Core.DTOs;
+using Family.Core.Entities;
 using Family.Core.Repository.Interfaces;
 using Family.Core.Specifications.PhotoSpecifications;
 using Family.Core.Specifications.SliderSpecifications;
@@ -19,15 +21,15 @@ namespace Family.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SliderItem>>> GetAllSliders()
+        public async Task<ActionResult<IEnumerable<SliderItemDto>>> GetAllSliders()
         {
             var spec = new SliderItemSpecification();
             var sliderItems = await _sliderItemRepo.ListAsync(spec);
-            return Ok(sliderItems);
+            return Ok(sliderItems.ToDtos());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SliderItem>> GetSlider(int id)
+        public async Task<ActionResult<SliderItemDto>> GetSlider(int id)
         {
             var spec = new SliderItemSpecification(id);
             var sliderItem = await _sliderItemRepo.GetBySpecification(spec);
@@ -35,7 +37,7 @@ namespace Family.Api.Controllers
             if (sliderItem == null)
                 return NotFound($"Slider item with ID {id} not found");
 
-            return Ok(sliderItem);
+            return Ok(sliderItem.ToDto());
         }
 
     }

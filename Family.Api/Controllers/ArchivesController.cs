@@ -1,4 +1,6 @@
-﻿using Family.Core.Entities;
+﻿using Family.Api.Helpers;
+using Family.Core.DTOs;
+using Family.Core.Entities;
 using Family.Core.Repository.Interfaces;
 using Family.Core.Specifications.PhotoSpecifications;
 using Microsoft.AspNetCore.Http;
@@ -18,15 +20,15 @@ namespace Family.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Photo>>> GetAllArchives()
+        public async Task<ActionResult<IEnumerable<PhotoDto>>> GetAllArchives()
         {
             var spec = new PhotoSpecification();
             var archives = await _archivesRepo.ListAsync(spec);
-            return Ok(archives);
+            return Ok(archives.ToDtos());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Photo>> GetArchive(int id)
+        public async Task<ActionResult<PhotoDto>> GetArchive(int id)
         {
             var spec = new PhotoSpecification(id);
             var photo = await _archivesRepo.GetBySpecification(spec);
@@ -34,7 +36,7 @@ namespace Family.Api.Controllers
             if (photo == null)
                 return NotFound($"Photo with ID {id} not found");
 
-            return Ok(photo);
+            return Ok(photo.ToDto());
         }
 
 
