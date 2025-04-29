@@ -1,4 +1,6 @@
-﻿using Family.Core.Entities;
+﻿using Family.Api.Helpers;
+using Family.Core.DTOs;
+using Family.Core.Entities;
 using Family.Core.Repository.Interfaces;
 using Family.Core.Specifications.BranchSpecifications;
 using Family.Core.Specifications.ClanSpecifications;
@@ -27,11 +29,11 @@ namespace Family.Api.Controllers
         }
 
         [HttpGet("clans")]
-        public async Task<ActionResult<IEnumerable<Clan>>> GetAllClans()
+        public async Task<ActionResult<IEnumerable<ClanDto>>> GetAllClans()
         {
             var spec = new ClanWithBranchesSpecification();
             var clans = await _clanRepo.ListAsync(spec);
-            return Ok(clans);
+            return Ok(clans.ToDtos());
         }
 
         [HttpGet("clans/{clanId}")]

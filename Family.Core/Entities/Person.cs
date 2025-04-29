@@ -11,6 +11,7 @@ namespace Family.Core.Entities
         public int ClanId { get; set; }
         public int BranchId { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string PhotoUrl { get; set; } = string.Empty;
         public string FatherName { get; set; } = string.Empty;
         public string MotherName { get; set; } = string.Empty;
         public string GrandFatherName { get; set; } = string.Empty;

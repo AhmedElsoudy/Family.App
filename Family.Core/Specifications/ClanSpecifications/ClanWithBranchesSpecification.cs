@@ -9,13 +9,18 @@ namespace Family.Core.Specifications.ClanSpecifications
 {
     public class ClanWithBranchesSpecification : BaseSpecification<Clan>
     {
-        public ClanWithBranchesSpecification()
+        public ClanWithBranchesSpecification() : base()
         {
-            AddInclude(c => c.Branches);
+            AddInclude(x => x.Branches);
+            AddInclude("Branches.Persons");
         }
-        public ClanWithBranchesSpecification(int clanId) : base(c => c.Id == clanId)
+
+        public ClanWithBranchesSpecification(int clanId)
+            : base(c => c.Id == clanId)
         {
-            AddInclude(c => c.Branches);
+            AddInclude(x => x.Branches);
+            AddInclude("Branches.Persons");
         }
+
     }
 }
