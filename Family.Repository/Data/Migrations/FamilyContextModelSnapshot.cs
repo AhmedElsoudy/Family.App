@@ -278,13 +278,13 @@ namespace Family.Repository.Data.Migrations
                     b.HasOne("Family.Core.Entities.Branch", "Branch")
                         .WithMany("Persons")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Family.Core.Entities.Clan", "Clan")
                         .WithMany()
                         .HasForeignKey("ClanId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Branch");

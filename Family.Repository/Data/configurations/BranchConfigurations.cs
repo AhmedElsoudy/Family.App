@@ -22,7 +22,7 @@ namespace Family.Repository.Data.configurations
             builder.HasOne(b => b.Clan)
                 .WithMany(c => c.Branches)
                 .HasForeignKey(b => b.ClanId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Configure one-to-many relationship with Person
             builder.HasMany(b => b.Persons)

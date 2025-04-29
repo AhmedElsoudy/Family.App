@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Family.Repository.Data.Migrations
 {
     [DbContext(typeof(FamilyContext))]
-    [Migration("20250429114441_UpdateEntities")]
-    partial class UpdateEntities
+    [Migration("20250429224045_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -281,13 +281,13 @@ namespace Family.Repository.Data.Migrations
                     b.HasOne("Family.Core.Entities.Branch", "Branch")
                         .WithMany("Persons")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Family.Core.Entities.Clan", "Clan")
                         .WithMany()
                         .HasForeignKey("ClanId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Branch");

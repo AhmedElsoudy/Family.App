@@ -1,9 +1,16 @@
 
+using Family.Core.Identity;
 using Family.Core.Repository.Interfaces;
 using Family.Repository.Data;
 using Family.Repository.Repository.Implemented;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Family.Core.Services.Interfaces;
+using Family.Service.Token;
 
 namespace Family.Api
 {
@@ -14,31 +21,89 @@ namespace Family.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // Add DbContext for Family
             builder.Services.AddDbContext<FamilyContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            // Add DbContext for Identity
+            builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+            });
+
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<ITokenService, TokenService>();
+
+            // Identity Configuration
+            builder.Services.AddIdentityCore<AppUser>(opt =>
+            {
+                // Password configuration
+                opt.Password.RequireNonAlphanumeric = true;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireUppercase = true;
+                opt.Password.RequireDigit = true;
+                opt.Password.RequiredLength = 6;
+
+                // User configuration
+                opt.User.RequireUniqueEmail = true;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<AppIdentityDbContext>()
+            .AddSignInManager<SignInManager<AppUser>>()
+            .AddDefaultTokenProviders();
+
+            // Authentication Configuration
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                            builder.Configuration["Token:Key"] ?? throw new InvalidOperationException("Token:Key is not configured"))),
+                        ValidIssuer = builder.Configuration["Token:Issuer"],
+                        ValidateIssuer = true,
+                        ValidateAudience = false
+                    };
+                });
+
+            // Authorization
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
-            using var scope = app.Services.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<FamilyContext>();
-            var loggerfactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-            try
+            // Database Migration
+            using (var scope = app.Services.CreateScope())
             {
-                await dbContext.Database.MigrateAsync();
-            }
-            catch (Exception ex)
-            {
-                var logger = loggerfactory.CreateLogger<Program>();
-                logger.LogError(ex, "An error occurred while migrating the database.");
+                var services = scope.ServiceProvider;
+                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                try
+                {
+                    var context = services.GetRequiredService<FamilyContext>();
+                    var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                    await context.Database.MigrateAsync();
+                    await identityContext.Database.MigrateAsync();
+
+                    // Seed Roles
+                    if (!await roleManager.RoleExistsAsync("Admin"))
+                        await roleManager.CreateAsync(new IdentityRole("Admin"));
+                    if (!await roleManager.RoleExistsAsync("User"))
+                        await roleManager.CreateAsync(new IdentityRole("User"));
+                }
+                catch (Exception ex)
+                {
+                    var logger = loggerFactory.CreateLogger<Program>();
+                    logger.LogError(ex, "An error occurred during migration");
+                }
             }
 
             // Configure the HTTP request pipeline.
@@ -50,12 +115,13 @@ namespace Family.Api
 
             app.UseHttpsRedirection();
 
+            // Add Authentication Middleware
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

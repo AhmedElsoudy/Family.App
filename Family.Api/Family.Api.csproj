@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Family.Repository\Family.Repository.csproj" />
+    <ProjectReference Include="..\Family.Service\Family.Service.csproj" />
   </ItemGroup>
 
 </Project>

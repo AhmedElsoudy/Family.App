@@ -41,17 +41,18 @@ namespace Family.Repository.Data.configurations
                 .IsRequired()
                 .HasMaxLength(20);
 
+
             // Configure relationship with Branch
             builder.HasOne(p => p.Branch)
                 .WithMany(b => b.Persons)
                 .HasForeignKey(p => p.BranchId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Configure relationship with Clan
             builder.HasOne(p => p.Clan)
                 .WithMany()
                 .HasForeignKey(p => p.ClanId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Configure one-to-many relationship with Notifications
             builder.HasMany(p => p.Notifications)
