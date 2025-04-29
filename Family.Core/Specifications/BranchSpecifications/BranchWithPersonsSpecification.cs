@@ -20,5 +20,6 @@ namespace Family.Core.Specifications.BranchSpecifications
         {
             AddInclude(x => x.Persons);
         }
+
     }
 }

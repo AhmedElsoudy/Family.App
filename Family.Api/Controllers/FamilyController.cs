@@ -73,11 +73,11 @@ namespace Family.Api.Controllers
         }
 
         [HttpGet("clans/{clanId}/branches")]
-        public async Task<ActionResult<IEnumerable<Branch>>> GetBranchesByClanId(int clanId)
+        public async Task<ActionResult<IEnumerable<BranchDto>>> GetBranchesByClanId(int clanId)
         {
             var spec = new BranchWithPersonsSpecification(clanId, true);
             var branches = await _branchRepo.ListAsync(spec);
-            return Ok(branches);
+            return Ok(branches.ToDtos());
         }
 
         [HttpGet("branches/{branchId}/persons")]
