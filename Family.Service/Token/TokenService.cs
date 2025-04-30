@@ -23,7 +23,7 @@ namespace Family.Service.Token
         {
             _userManager = userManager;
             _config = config;
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"] ?? string.Empty));
         }
 
         public async Task<string> CreateToken(AppUser user)
@@ -38,14 +38,15 @@ namespace Family.Service.Token
             var roles = await _userManager.GetRolesAsync(user);
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddDays(double.Parse(_config["Token:Duration"] ?? "0")),
                 SigningCredentials = creds,
-                Issuer = _config["Token:Issuer"]
+                Issuer = _config["Token:Issuer"],
+                Audience = _config["Token:Audience"]
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
