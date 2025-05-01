@@ -10,13 +10,9 @@ namespace Family.Api.Helpers
             return new BranchDto
             {
                 Id = entity.Id,
-                ClanId = entity.ClanId,
                 Name = entity.Name,
                 PhotoUrl = entity.PhotoUrl,
-                LeaderName = entity.LeaderName,
-                EstablishmentYear = entity.EstablishmentYear,
-                Region = entity.Region,
-                PersonsCount = entity.Persons?.Count ?? 0
+                Region = entity.Region
             };
         }
 

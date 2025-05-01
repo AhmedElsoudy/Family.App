@@ -18,6 +18,10 @@ namespace Family.Repository.Data.configurations
              .IsRequired()
              .HasMaxLength(100);
 
+            builder.Property(b => b.Region)
+             .IsRequired()
+             .HasMaxLength(100);
+
             // Configure one-to-many relationship with Clan
             builder.HasOne(b => b.Clan)
                 .WithMany(c => c.Branches)
