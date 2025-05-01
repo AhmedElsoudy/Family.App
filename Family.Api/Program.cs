@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Family.Core.Services.Interfaces;
 using Family.Service.Token;
+using Family.Service.Email;
 
 namespace Family.Api
 {
@@ -39,6 +40,7 @@ namespace Family.Api
 
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
             // Identity Configuration
             builder.Services.AddIdentityCore<AppUser>(opt =>
