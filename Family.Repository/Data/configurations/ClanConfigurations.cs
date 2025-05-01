@@ -17,11 +17,15 @@ namespace Family.Repository.Data.configurations
             .IsRequired()
             .HasMaxLength(100);
 
+            builder.Property(c => c.Region)
+                .IsRequired()
+                .HasMaxLength(100);
+
             // Configure one-to-many relationship with Branch
             builder.HasMany(c => c.Branches)
                 .WithOne(b => b.Clan)
                 .HasForeignKey(b => b.ClanId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
 
         }

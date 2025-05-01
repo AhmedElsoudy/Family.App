@@ -11,13 +11,9 @@ namespace Family.Api.Helpers
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                Description = entity.Description,
                 PhotoUrl = entity.PhotoUrl,
                 Region = entity.Region,
-                LeaderName = entity.LeaderName,
-                EstablishmentYear = entity.EstablishmentYear,
-                SponsorName = entity.SponsorName,
-                PersonsCount = entity.Branches?.Sum(b => b.Persons?.Count ?? 0) ?? 0
+
             };
         }
 

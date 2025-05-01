@@ -10,13 +10,8 @@ namespace Family.Core.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string? Description { get; set; }
         public string PhotoUrl { get; set; } = string.Empty;
         public string Region { get; set; } = string.Empty;
-        public string LeaderName { get; set; } = string.Empty;
-        public string EstablishmentYear { get; set; } = string.Empty;
-        public string SponsorName { get; set; } = string.Empty;
-        public int PersonsCount { get; set; }
 
     }
 }
