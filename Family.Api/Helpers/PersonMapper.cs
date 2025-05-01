@@ -10,11 +10,18 @@ namespace Family.Api.Helpers
             return new PersonDto
             {
                 Id = entity.Id,
-                ClanId = entity.ClanId,
-                BranchId = entity.BranchId,
                 Name = entity.Name,
                 PhotoUrl = entity.PhotoUrl,
-                Relationship = DetermineRelationship(entity),
+                FatherName = entity.FatherName,
+                MotherName = entity.MotherName,
+                FGrandFatherName = entity.FGrandFatherName?? string.Empty,
+                FGrandMotherName = entity.FGrandMotherName ?? string.Empty,
+                MGrandFatherName = entity.MGrandFatherName ?? string.Empty,
+                MGrandMotherName = entity.MGrandMotherName ?? string.Empty,
+                EmailAddress = entity.EmailAddress,
+                AddressTitle = entity.AddressTitle ?? string.Empty,
+                Latitude = entity.Latitude,
+                Longitude = entity.Longitude,
                 ClanName = entity.Clan?.Name ?? string.Empty,
                 BranchName = entity.Branch?.Name ?? string.Empty
             };
@@ -25,11 +32,5 @@ namespace Family.Api.Helpers
             return entities.Select(e => e.ToDto());
         }
 
-        private static string DetermineRelationship(Person person)
-        {
-            // Logic to determine relationship based on the family tree structure
-            // This would need to be customized based on your specific rules
-            return "الجد أبي الأب"; // Example return
-        }
     }
 }

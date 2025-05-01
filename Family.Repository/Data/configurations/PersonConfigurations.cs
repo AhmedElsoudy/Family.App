@@ -13,33 +13,19 @@ namespace Family.Repository.Data.configurations
     {
         public void Configure(EntityTypeBuilder<Person> builder)
         {
-            builder.Property(p => p.Name)
-                .IsRequired()
-                .HasMaxLength(100);
+            // Existing properties
+            builder.Property(p => p.Name).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.PhotoUrl).IsRequired().HasMaxLength(255);
+            builder.Property(p => p.FatherName).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.MotherName).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.PhoneNumber).HasMaxLength(20);
+            builder.Property(p => p.FacebookAccount).HasMaxLength(100);
+            builder.Property(p => p.InstagramAccount).HasMaxLength(100);
 
-            builder.Property(p => p.FatherName)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Property(p => p.MotherName)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Property(p => p.GrandFatherName)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Property(p => p.GrandMotherName)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Property(p => p.Address)
-                .IsRequired()
-                .HasMaxLength(200);
-
-            builder.Property(p => p.PhoneNumber)
-                .IsRequired()
-                .HasMaxLength(20);
+            // New properties
+            builder.Property(p => p.EmailAddress).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.AddressTitle).HasMaxLength(255);
+            builder.Property(p => p.FCMToken).HasMaxLength(255);
 
 
             // Configure relationship with Branch

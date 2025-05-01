@@ -9,12 +9,19 @@ namespace Family.Core.DTOs
     public class PersonDto
     {
         public int Id { get; set; }
-        public int ClanId { get; set; }
-        public int BranchId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string PhotoUrl { get; set; } = string.Empty;
-        public string Relationship { get; set; } = string.Empty;  // الجد أبي الأب, الأم, etc.
-        public string ClanName { get; set; } = string.Empty;     // اسم العشيرة
+        public string FatherName { get; set; } = string.Empty;
+        public string MotherName { get; set; } = string.Empty;
+        public string FGrandFatherName { get; set; } = string.Empty;
+        public string FGrandMotherName { get; set; } = string.Empty;
+        public string MGrandFatherName { get; set; } = string.Empty;
+        public string MGrandMotherName { get; set; } = string.Empty;
+        public string EmailAddress { get; set; } = string.Empty;
+        public string AddressTitle { get; set; } = string.Empty;
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public string ClanName { get; set; } = string.Empty;
         public string BranchName { get; set; } = string.Empty;
 
     }

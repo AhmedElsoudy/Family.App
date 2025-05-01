@@ -12,8 +12,15 @@ namespace Family.Core.DTOs
         public int PersonId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Body { get; set; } = string.Empty;
-        public string FormattedTime { get; set; } = string.Empty;  // "PM 02:52" format
-        public string GroupDate { get; set; } = string.Empty;
+        public string CreatedAt { get; set; } = string.Empty;
+        public string NotificationType { get; set; } = string.Empty;
+        public bool IsRead { get; set; }
+        public string? Data { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? RedirectUrl { get; set; }
+        public bool IsSent { get; set; }
+        public string? SentAt { get; set; }
+        public string PersonName { get; set; } = string.Empty;
 
     }
 }

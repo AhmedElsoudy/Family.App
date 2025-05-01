@@ -14,14 +14,33 @@ namespace Family.Api.Helpers
                 Id = entity.Id,
                 Name = entity.Name,
                 PhotoUrl = entity.PhotoUrl,
+
+                // Family Information
+                FatherName = entity.FatherName,
+                MotherName = entity.MotherName,
+                FGrandFatherName = entity.FGrandFatherName ?? string.Empty,
+                FGrandMotherName = entity.FGrandMotherName ?? string.Empty,
+                MGrandFatherName = entity.MGrandFatherName ?? string.Empty,
+                MGrandMotherName = entity.MGrandMotherName ?? string.Empty,
+
+                // Personal Information
                 BirthDate = entity.BirthDate.ToString("yyyy-MM-dd"),
-                BirthPlace = entity.Address,
-                Age = $"{age} سنة",  
+                Age = $"{age} سنة",
+                EmailAddress = entity.EmailAddress,
+
+                // Location Information
+                AddressTitle = entity.AddressTitle ?? string.Empty,
+                Latitude = entity.Latitude,
+                Longitude = entity.Longitude,
+
+                // Family Tree Information
                 ClanName = entity.Clan?.Name ?? string.Empty,
                 BranchName = entity.Branch?.Name ?? string.Empty,
+
+                // Social Media & Contact
+                PhoneNumber = entity.PhoneNumber,
                 FacebookAccount = entity.FacebookAccount,
-                InstagramAccount = entity.InstagramAccount,
-                PhoneNumber = entity.PhoneNumber
+                InstagramAccount = entity.InstagramAccount
             };
         }
 
@@ -29,14 +48,15 @@ namespace Family.Api.Helpers
         {
             var today = DateTime.Today;
             var age = today.Year - birthDate.Year;
-            if (birthDate.Date > today.AddYears(-age)) age--;
+            if (birthDate.Date > today.AddYears(-age))
+                age--;
             return age;
         }
 
-        //public static IEnumerable<PersonDto> ToDtos(this IEnumerable<Person> entities)
-        //{
-        //    return entities.Select(e => e.ToDto());
-        //}
+        public static IEnumerable<PersonDetailsDto> ToDetailsDtos(this IEnumerable<Person> entities)
+        {
+            return entities.Select(e => e.ToDetailsDto());
+        }
 
     }
 }
