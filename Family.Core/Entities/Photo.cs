@@ -8,9 +8,11 @@ namespace Family.Core.Entities
 {
     public class Photo : BaseEntity
     {
-        public string PhotoUrl { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public DateTime DateTaken { get; set; }
+        public string Title { get; set; } = string.Empty; // New property for photo title
+        public string PhotoUrl { get; set; } = string.Empty; // Photo URL
+        public string Description { get; set; } = string.Empty; // Photo description
+        public DateTime DateTaken { get; set; } // Date the photo was taken
+
 
     }
 }

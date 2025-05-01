@@ -10,6 +10,7 @@ namespace Family.Api.Helpers
             return new PhotoDto
             {
                 Id = entity.Id,
+                Title = entity.Title, // Map the new Title property
                 PhotoUrl = entity.PhotoUrl,
                 Description = entity.Description,
                 DateTaken = entity.DateTaken.ToString("yyyy/MM/dd") // Format as shown in the design
